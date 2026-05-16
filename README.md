@@ -112,6 +112,21 @@ sudo rpm-ostree install ./xkb-qwerty-fr_*_linux.noarch.rpm
 sudo rpm -i ./xkb-qwerty-fr_*_linux.noarch.rpm
 ```
 
+Or install from copr.
+
+```shell
+dnf copr enable leopoldhub/xkb-qwerty-fr
+dnf install xkb-qwerty-fr
+```
+
+```shell
+# Immutable distributions
+sudo curl -L \                                                                                                                                                                                   
+  -o /etc/yum.repos.d/leopoldhub-xkb-qwerty-fr.repo \
+  "https://copr.fedorainfracloud.org/coprs/leopoldhub/xkb-qwerty-fr/repo/fedora-$(rpm -E %fedora)/leopoldhub-xkb-qwerty-fr-fedora-$(rpm -E %fedora).repo"
+sudo rpm-ostree install xkb-qwerty-fr
+```
+
 #### Archlinux
 
 There is a user package for this: https://aur.archlinux.org/packages/xkb-qwerty-fr/
