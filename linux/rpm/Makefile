@@ -21,6 +21,11 @@ rpm:
 		--define "_buildrootdir $(BUILDROOTDIR)" \
 		--define "_srcrpmdir $(SRCRPMDIR)"
 
+rpm_src:
+	$(RPMBUILD) -bs $(SPEC) \
+		--define "_sourcedir $(TOPDIR)/../.." \
+		--define "_srcrpmdir $(SRCRPMDIR)"
+
 .PHONY: clean
 clean:
 	$(RM) $(RPMDIR) $(BUILDDIR) $(BUILDROOTDIR) $(SRCRPMDIR)
