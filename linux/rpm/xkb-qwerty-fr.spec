@@ -7,6 +7,14 @@ Group:          System Environment/Base
 License:        MIT
 URL:            https://github.com/qwerty-fr/qwerty-fr
 BuildArch:      noarch
+Source0:        us_qwerty-fr
+Source1:        keymap.txt
+Source2:        LICENSE
+Source3:        qwerty-fr.7
+Source4:        postinst
+Source5:        postrm
+Source6:        postinst-rpm.pl
+Source7:        postrm-rpm.pl
 Requires:       perl
 Requires:       xkeyboard-config
 Recommends:     setxkbmap
@@ -21,17 +29,17 @@ It is also easy to learn!
 %build
 
 %install
-install -Dpm 0644 %{_sourcedir}/linux/us_qwerty-fr %{buildroot}%{_datadir}/X11/xkb/symbols/us_qwerty-fr
-install -Dpm 0644 %{_sourcedir}/linux/keymap.txt %{buildroot}%{_docdir}/%{name}/keymap.txt
-install -Dpm 0644 %{_sourcedir}/LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
+install -Dpm 0644 %{SOURCE0} %{buildroot}%{_datadir}/X11/xkb/symbols/us_qwerty-fr
+install -Dpm 0644 %{SOURCE1} %{buildroot}%{_docdir}/%{name}/keymap.txt
+install -Dpm 0644 %{SOURCE2} %{buildroot}%{_licensedir}/%{name}/LICENSE
 
 install -d %{buildroot}%{_mandir}/man7
-gzip -c9 %{_sourcedir}/linux/man/qwerty-fr.7 > %{buildroot}%{_mandir}/man7/qwerty-fr.7.gz
+gzip -c9 %{SOURCE3} > %{buildroot}%{_mandir}/man7/qwerty-fr.7.gz
 
-install -Dpm 0755 %{_sourcedir}/linux/rpm/RPM/postinst %{buildroot}%{_libexecdir}/%{name}/postinst
-install -Dpm 0755 %{_sourcedir}/linux/rpm/RPM/postrm %{buildroot}%{_libexecdir}/%{name}/postrm
-install -Dpm 0755 %{_sourcedir}/linux/rpm/RPM/postinst-rpm.pl %{buildroot}%{_libexecdir}/%{name}/postinst-rpm
-install -Dpm 0755 %{_sourcedir}/linux/rpm/RPM/postrm-rpm.pl %{buildroot}%{_libexecdir}/%{name}/postrm-rpm
+install -Dpm 0755 %{SOURCE4} %{buildroot}%{_libexecdir}/%{name}/postinst
+install -Dpm 0755 %{SOURCE5} %{buildroot}%{_libexecdir}/%{name}/postrm
+install -Dpm 0755 %{SOURCE6} %{buildroot}%{_libexecdir}/%{name}/postinst-rpm
+install -Dpm 0755 %{SOURCE7} %{buildroot}%{_libexecdir}/%{name}/postrm-rpm
 
 %post
 %{_libexecdir}/%{name}/postinst-rpm
