@@ -97,12 +97,19 @@ If you only want to swap the right <kbd>Command ⌘</kbd> with the right <kbd>Op
 
 Download the [Linux DEB file](https://github.com/qwerty-fr/qwerty-fr/releases/latest) and install it.
 
-#### Fedora / rpm
+#### Fedora / RPM
 
 Download the [Linux RPM file](https://github.com/qwerty-fr/qwerty-fr/releases/latest) and install it.
 
 ```shell
-rpm install xkb-qwerty-fr_*_linux.noarch.rpm
+# Fedora
+sudo dnf install ./xkb-qwerty-fr_*_linux.noarch.rpm
+
+# Fedora atomic distributions
+sudo rpm-ostree install ./xkb-qwerty-fr_*_linux.noarch.rpm
+
+# Other RPM based distributions
+sudo rpm -i ./xkb-qwerty-fr_*_linux.noarch.rpm
 ```
 
 #### Archlinux
