@@ -11,13 +11,13 @@ Source0:        us_qwerty-fr
 Source1:        keymap.txt
 Source2:        LICENSE
 Source3:        qwerty-fr.7
-Source4:        postinst
-Source5:        postrm
-Source6:        postinst-rpm.pl
-Source7:        postrm-rpm.pl
-Requires:       perl
-Requires:       xkeyboard-config
-Recommends:     setxkbmap
+Source4:        evdev.xml
+BuildRequires:  pkgconfig(xkbcommon) >= 1.13
+Requires:       libxkbcommon >= 1.13
+Requires:       xkeyboard-config >= 2.45
+
+%global xkb_extensions_root %(pkg-config --variable=xkb_unversioned_extensions_path xkbcommon 2>/dev/null || printf '%s' %{_datadir}/xkeyboard-config.d)
+%global xkb_package_dir %{xkb_extensions_root}/%{name}
 
 %description
 Keyboard layout based on the QWERTY layout with extra symbols and diacritics so
@@ -29,39 +29,20 @@ It is also easy to learn!
 %build
 
 %install
-install -Dpm 0644 %{SOURCE0} %{buildroot}%{_datadir}/X11/xkb/symbols/us_qwerty-fr
+install -Dpm 0644 %{SOURCE0} %{buildroot}%{xkb_package_dir}/symbols/us
+install -Dpm 0644 %{SOURCE4} %{buildroot}%{xkb_package_dir}/rules/evdev.xml
 install -Dpm 0644 %{SOURCE1} %{buildroot}%{_docdir}/%{name}/keymap.txt
 install -Dpm 0644 %{SOURCE2} %{buildroot}%{_licensedir}/%{name}/LICENSE
 
 install -d %{buildroot}%{_mandir}/man7
 gzip -c9 %{SOURCE3} > %{buildroot}%{_mandir}/man7/qwerty-fr.7.gz
 
-install -Dpm 0755 %{SOURCE4} %{buildroot}%{_libexecdir}/%{name}/postinst
-install -Dpm 0755 %{SOURCE5} %{buildroot}%{_libexecdir}/%{name}/postrm
-install -Dpm 0755 %{SOURCE6} %{buildroot}%{_libexecdir}/%{name}/postinst-rpm
-install -Dpm 0755 %{SOURCE7} %{buildroot}%{_libexecdir}/%{name}/postrm-rpm
-
-%post
-%{_libexecdir}/%{name}/postinst-rpm
-
-%preun
-%{_libexecdir}/%{name}/postrm-rpm $1
-
-%transfiletriggerin -- /usr/share/X11/xkb/symbols/us /usr/share/X11/xkb/rules/evdev.extra.xml /usr/share/X11/xkb/rules/evdev.extras.xml /usr/share/X11/xkb/rules/evdev.xml /usr/share/X11/xkb/rules/base.extra.xml /usr/share/X11/xkb/rules/base.extras.xml /usr/share/X11/xkb/rules/base.xml /usr/share/X11/xkb/base.xml
-%{_libexecdir}/%{name}/postinst-rpm triggered
-
-%transfiletriggerpostun -- /usr/share/X11/xkb/symbols/us /usr/share/X11/xkb/rules/evdev.extra.xml /usr/share/X11/xkb/rules/evdev.extras.xml /usr/share/X11/xkb/rules/evdev.xml /usr/share/X11/xkb/rules/base.extra.xml /usr/share/X11/xkb/rules/base.extras.xml /usr/share/X11/xkb/rules/base.xml /usr/share/X11/xkb/base.xml
-%{_libexecdir}/%{name}/postinst-rpm triggered
-
 %files
 %license %{_licensedir}/%{name}/LICENSE
 %doc %{_docdir}/%{name}/keymap.txt
 %{_mandir}/man7/qwerty-fr.7.gz
-%{_datadir}/X11/xkb/symbols/us_qwerty-fr
-%{_libexecdir}/%{name}/postinst
-%{_libexecdir}/%{name}/postrm
-%{_libexecdir}/%{name}/postinst-rpm
-%{_libexecdir}/%{name}/postrm-rpm
+%{xkb_package_dir}/symbols/us
+%{xkb_package_dir}/rules/evdev.xml
 
 %changelog
 * Sun Dec 10 2023 Paul <devnoname120@gmail.com> - 0.7.3-1

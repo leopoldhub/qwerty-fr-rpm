@@ -16,13 +16,10 @@ BUILDROOTDIR ?= $(TOPDIR)/BUILDROOT
 SRCRPMDIR ?= $(TOPDIR)/SRPMS
 SOURCES := \
 	$(SOURCEDIR)/us_qwerty-fr \
+	$(SOURCEDIR)/evdev.xml \
 	$(SOURCEDIR)/keymap.txt \
 	$(SOURCEDIR)/LICENSE \
-	$(SOURCEDIR)/qwerty-fr.7 \
-	$(SOURCEDIR)/postinst \
-	$(SOURCEDIR)/postrm \
-	$(SOURCEDIR)/postinst-rpm.pl \
-	$(SOURCEDIR)/postrm-rpm.pl
+	$(SOURCEDIR)/qwerty-fr.7
 
 .PHONY: rpm srpm clean
 
@@ -46,6 +43,9 @@ $(SOURCEDIR):
 $(SOURCEDIR)/us_qwerty-fr: $(REPOSOURCEDIR)/linux/us_qwerty-fr | $(SOURCEDIR)
 	$(INSTALL) -Dpm 0644 $< $@
 
+$(SOURCEDIR)/evdev.xml: $(REPOSOURCEDIR)/linux/rpm/RPM/evdev.xml | $(SOURCEDIR)
+	$(INSTALL) -Dpm 0644 $< $@
+
 $(SOURCEDIR)/keymap.txt: $(REPOSOURCEDIR)/linux/keymap.txt | $(SOURCEDIR)
 	$(INSTALL) -Dpm 0644 $< $@
 
@@ -54,18 +54,6 @@ $(SOURCEDIR)/LICENSE: $(REPOSOURCEDIR)/LICENSE | $(SOURCEDIR)
 
 $(SOURCEDIR)/qwerty-fr.7: $(REPOSOURCEDIR)/linux/man/qwerty-fr.7 | $(SOURCEDIR)
 	$(INSTALL) -Dpm 0644 $< $@
-
-$(SOURCEDIR)/postinst: $(REPOSOURCEDIR)/linux/rpm/RPM/postinst | $(SOURCEDIR)
-	$(INSTALL) -Dpm 0755 $< $@
-
-$(SOURCEDIR)/postrm: $(REPOSOURCEDIR)/linux/rpm/RPM/postrm | $(SOURCEDIR)
-	$(INSTALL) -Dpm 0755 $< $@
-
-$(SOURCEDIR)/postinst-rpm.pl: $(REPOSOURCEDIR)/linux/rpm/RPM/postinst-rpm.pl | $(SOURCEDIR)
-	$(INSTALL) -Dpm 0755 $< $@
-
-$(SOURCEDIR)/postrm-rpm.pl: $(REPOSOURCEDIR)/linux/rpm/RPM/postrm-rpm.pl | $(SOURCEDIR)
-	$(INSTALL) -Dpm 0755 $< $@
 
 clean:
 	$(RM) $(RMFLAGS) $(RPMDIR) $(BUILDDIR) $(BUILDROOTDIR) $(SRCRPMDIR) $(SOURCEDIR)
